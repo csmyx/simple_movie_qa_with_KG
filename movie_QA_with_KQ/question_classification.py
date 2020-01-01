@@ -55,7 +55,7 @@ class Question_classify():
         return train_x,train_y
 
     # 训练并测试模型
-    def train_model(self, classifier=0):
+    def train_model(self, classifier=1):
         X_train, y_train = self.train_x, self.train_y
         self.tv = TfidfVectorizer()
 

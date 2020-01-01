@@ -1,11 +1,11 @@
 #-*- coding: UTF-8 -*-
 
 '''
-9:nnt 参演评分 小于 x
-10:nnt 电影类型
-11:nnt nnr 合作 电影列表
-12:nnt 电影数量
-13:nnt 出生日期
+9:nr 参演评分 小于 x
+10:nr 电影类型
+11:nr nr 合作 电影列表
+12:nr 电影数量
+13:nr 出生日期
 '''
 from query import Query
 import re
@@ -131,7 +131,7 @@ class QuestionTemplate():
         answer = "、".join(answer_list)
         final_answer = movie_name + "由" + str(answer) + "等演员主演！"
         return final_answer
-    # 5:nnt 介绍
+    # 5:nr 介绍
     def get_actor_info(self):
         actor_name = self.get_name('nr')
         cql = f"match(n:Person)-[]->() where n.name='{actor_name}' return n.biography"
@@ -139,7 +139,7 @@ class QuestionTemplate():
         answer = self.graph.run(cql)[0]
         final_answer = answer
         return final_answer
-    # 6:nnt ng 电影作品
+    # 6:nr ng 电影作品
     def get_actor_act_type_movie(self):
         actor_name = self.get_name("nr")
         type=self.get_name("ng")
@@ -166,7 +166,7 @@ class QuestionTemplate():
         print(answer)
         final_answer = actor_name+"演过的"+type+"电影有:\n"+answer+"。"
         return final_answer
-    # 7:nnt 电影作品
+    # 7:nr 电影作品
     def get_actor_act_movie_list(self):
         actor_name = self.get_name("nr")
         answer_list=self.get_actorname_movie_list(actor_name)
@@ -182,7 +182,7 @@ class QuestionTemplate():
         answer_list = list(answer_set)
         return answer_list
 
-    # 8:nnt 参演评分 大于 x
+    # 8:nr 参演评分 大于 x
     def get_movie_rating_bigger(self):
         actor_name=self.get_name('nr')
         x=self.get_num_x()

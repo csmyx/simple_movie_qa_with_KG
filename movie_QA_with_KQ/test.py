@@ -10,5 +10,5 @@ que=Question()
 def enablePrint():
     sys.stdout = sys.__stdout__
 enablePrint()
-result=que.question_process("章子怡出演过哪些喜剧电影")
+result=que.question_process("周星驰")
 print(result)
