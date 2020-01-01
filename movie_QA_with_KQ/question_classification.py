@@ -1,13 +1,9 @@
 #-*- coding: UTF-8 -*-
-# @Time    : 2019/4/12 15:40
-# @Author  : xiongzongyang
-# @Site    : 
-# @File    : question_classification.py
-# @Software: PyCharm
 
 import pandas as pd
 from pandas import Series, DataFrame
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import re
@@ -34,7 +30,7 @@ class Question_classify():
         # 读取训练数据
         self.train_x,self.train_y=self.read_train_data()
         # 训练模型
-        self.model=self.train_model_NB()
+        self.model=self.train_model()
     # 获取训练数据
     def read_train_data(self):
         train_x=[]
@@ -58,15 +54,18 @@ class Question_classify():
                         train_y.append(label_num)
         return train_x,train_y
 
-    # 训练并测试模型-NB
-    def train_model_NB(self):
+    # 训练并测试模型
+    def train_model(self, classifier=0):
         X_train, y_train = self.train_x, self.train_y
         self.tv = TfidfVectorizer()
 
         train_data = self.tv.fit_transform(X_train).toarray()
-        clf = MultinomialNB(alpha=0.01)
-        clf.fit(train_data, y_train)
-        return clf
+        if classifier == 0:
+            model = MultinomialNB(alpha=0.01)
+        else:
+            model = LogisticRegression(max_iter=10000, solver='sag', multi_class='multinomial')
+        model.fit(train_data, y_train)
+        return model
 
     # 预测
     def predict(self,question):

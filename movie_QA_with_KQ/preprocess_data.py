@@ -1,9 +1,4 @@
 #-*- coding: UTF-8 -*-
-# @Time    : 2019/4/12 15:04
-# @Author  : xiongzongyang
-# @Site    : 
-# @File    : preprocess_data.py
-# @Software: PyCharm
 
 '''
 接收原始问题
@@ -23,7 +18,7 @@ from question_template import QuestionTemplate
 #         if str(one).strip()!="":
 #             temp=str(one).strip()+" "+str(15)+" nr"+"\n"
 #             result.append(temp)
-# with(open("./data/userdict2.txt","w",encoding="utf-8")) as fw:
+# with(open("./data/userdict.txt","w",encoding="utf-8")) as fw:
 #     for one in result:
 #         fw.write(one)
 
@@ -48,17 +43,13 @@ class Question():
         self.init_config()
 
     def init_config(self):
-        # # 读取词汇表
-        # with(open("./data/vocabulary.txt","r",encoding="utf-8")) as fr:
-        #     vocab_list=fr.readlines()
-        # vocab_dict={}
-        # vocablist=[]
-        # for one in vocab_list:
-        #     word_id,word=str(one).strip().split(":")
-        #     vocab_dict[str(word).strip()]=int(word_id)
-        #     vocablist.append(str(word).strip())
-        # # print(vocab_dict)
-        # self.vocab=vocab_dict
+        #读取需要删除的词汇表
+        with(open("./data/del_vocabulary.txt","r",encoding="utf-8")) as fr:
+            del_vocab_lines=fr.readlines()
+        del_vocabulary=[]
+        for del_vocab_line in del_vocab_lines:
+            del_vocabulary.append(del_vocab_line.strip())
+        self.del_vocabulary = del_vocabulary
 
         # 训练分类器
         self.classify_model=Question_classify()
@@ -88,7 +79,8 @@ class Question():
         return(self.answer)
 
     def question_posseg(self):
-        jieba.load_userdict("./data/userdict3.txt")
+        jieba.load_userdict("./data/userdict.txt")
+        [jieba.del_word(word) for word in self.del_vocabulary]
         clean_question = re.sub("[\s+\.\!\/_,$%^*(+\"\')]+|[+——()?【】“”！，。？、~@#￥%……&*（）]+","",self.raw_question)
         self.clean_question=clean_question
         question_seged=jieba.posseg.cut(str(clean_question))

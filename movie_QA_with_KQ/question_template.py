@@ -1,14 +1,6 @@
 #-*- coding: UTF-8 -*-
-# @Time    : 2019/4/14 13:21
-# @Author  : xiongzongyang
-# @Site    : 
-# @File    : question_template.py
-# @Software: PyCharm
 
 '''
-
-
-
 9:nnt 参演评分 小于 x
 10:nnt 电影类型
 11:nnt nnr 合作 电影列表
